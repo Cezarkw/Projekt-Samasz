@@ -1,0 +1,11 @@
+karta sd\sd_stm32f1_spi.o: ..\Core\Src\FatFs\sd_stm32f1_spi.c
+karta sd\sd_stm32f1_spi.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h
+karta sd\sd_stm32f1_spi.o: ../Drivers/CMSIS/Include/core_cm3.h
+karta sd\sd_stm32f1_spi.o: C:\Keil\ARM\ARMCC\Bin\..\include\stdint.h
+karta sd\sd_stm32f1_spi.o: ../Drivers/CMSIS/Include/cmsis_version.h
+karta sd\sd_stm32f1_spi.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
+karta sd\sd_stm32f1_spi.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
+karta sd\sd_stm32f1_spi.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h
+karta sd\sd_stm32f1_spi.o: ..\Core\Src\FatFs\diskio.h
+karta sd\sd_stm32f1_spi.o: ..\Core\Src\FatFs\ff.h
+karta sd\sd_stm32f1_spi.o: ..\Core\Src\FatFs\ffconf.h

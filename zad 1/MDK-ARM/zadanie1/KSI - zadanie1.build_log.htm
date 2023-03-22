@@ -1,0 +1,98 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: µVision V5.36.0.0
+Copyright (C) 2021 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Cezary Kownacki, Bialystok University of technology, LIC=----
+ 
+Tool Versions:
+Toolchain:       MDK-Lite  Version: 5.36.0.0
+Toolchain Path:  C:\Keil\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 7 (build 960)
+Assembler:       Armasm.exe V5.06 update 7 (build 960)
+Linker/Locator:  ArmLink.exe V5.06 update 7 (build 960)
+Library Manager: ArmAr.exe V5.06 update 7 (build 960)
+Hex Converter:   FromElf.exe V5.06 update 7 (build 960)
+CPU DLL:         SARMCM3.DLL V5.36.0.0
+Dialog DLL:      DCM.DLL V1.17.3.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.9.0
+Dialog DLL:      TCM.DLL V1.53.0.0
+ 
+<h2>Project:</h2>
+C:\Users\Cezary Kownacki\STM32Cube\KSI zad1\MDK-ARM\KSI - zadanie1.uvprojx
+Project File Date:  04/06/2022
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 update 7 (build 960)', folder: 'C:\Keil\ARM\ARMCC\Bin'
+Rebuild target 'KSI - zadanie1'
+assembling startup_stm32f103xb.s...
+compiling stm32f1xx_hal_gpio_ex.c...
+compiling stm32f1xx_hal_tim.c...
+compiling stm32f1xx_hal_tim_ex.c...
+compiling main.c...
+../Core/Inc/lcd4bit.h(97): warning:  #1-D: last line of file ends without a newline
+  #endif /* LCD_H_ */
+../Core/Src/main.c: 1 warning, 0 errors
+compiling stm32f1xx_hal_msp.c...
+compiling stm32f1xx_it.c...
+compiling lcd4bit.c...
+../Core/Inc/lcd4bit.h(97): warning:  #1-D: last line of file ends without a newline
+  #endif /* LCD_H_ */
+..\Core\Src\lcd4bit.c(125): warning:  #188-D: enumerated type mixed with another type
+  	HAL_GPIO_WritePin(lcd->rs_port, lcd->rs_pin, LCD_COMMAND_REG);		// Write to command register
+..\Core\Src\lcd4bit.c(144): warning:  #188-D: enumerated type mixed with another type
+  	HAL_GPIO_WritePin(lcd->rs_port, lcd->rs_pin, LCD_DATA_REG);			// Write to data register
+..\Core\Src\lcd4bit.c(165): warning:  #188-D: enumerated type mixed with another type
+  		HAL_GPIO_WritePin(lcd->data_port[i], lcd->data_pin[i], (data >> i) & 0x01);
+..\Core\Src\lcd4bit.c(168): warning:  #188-D: enumerated type mixed with another type
+  	HAL_GPIO_WritePin(lcd->en_port, lcd->en_pin, 1);
+..\Core\Src\lcd4bit.c(170): warning:  #188-D: enumerated type mixed with another type
+  	HAL_GPIO_WritePin(lcd->en_port, lcd->en_pin, 0); 		// Data receive on falling edge
+..\Core\Src\lcd4bit.c(171): warning:  #1-D: last line of file ends without a newline
+  }
+..\Core\Src\lcd4bit.c: 7 warnings, 0 errors
+compiling stm32f1xx_hal_gpio.c...
+compiling stm32f1xx_hal_rcc_ex.c...
+compiling stm32f1xx_hal.c...
+compiling stm32f1xx_hal_dma.c...
+compiling stm32f1xx_hal_cortex.c...
+compiling stm32f1xx_hal_uart.c...
+compiling stm32f1xx_hal_rcc.c...
+compiling system_stm32f1xx.c...
+compiling stm32f1xx_hal_exti.c...
+compiling stm32f1xx_hal_pwr.c...
+compiling stm32f1xx_hal_flash_ex.c...
+compiling stm32f1xx_hal_flash.c...
+linking...
+Program Size: Code=5416 RO-data=292 RW-data=64 ZI-data=1736  
+FromELF: creating hex file...
+"KSI - zadanie1\KSI - zadanie1.axf" - 0 Error(s), 8 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS.5.8.0.pack
+                ARM.CMSIS.5.8.0
+                CMSIS (Common Microcontroller Software Interface Standard)
+   * Component: CORE Version: 5.5.0
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.STM32F1xx_DFP.2.4.0.pack
+                Keil.STM32F1xx_DFP.2.4.0
+                STMicroelectronics STM32F1 Series Device Support, Drivers and Examples
+
+<h2>Collection of Component include folders:</h2>
+  .\RTE\_KSI_-_zadanie1
+  C:\Keil\ARM\Pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include
+  C:\Keil\ARM\Pack\Keil\STM32F1xx_DFP\2.4.0\Device\Include
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: ARM::CMSIS:CORE:5.5.0
+      Include file:  CMSIS\Core\Include\tz_context.h
+Build Time Elapsed:  00:00:07
+</pre>
+</body>
+</html>

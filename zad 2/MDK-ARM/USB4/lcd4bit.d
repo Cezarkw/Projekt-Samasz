@@ -1,0 +1,10 @@
+usb4\lcd4bit.o: ..\Core\Src\lcd4bit.c
+usb4\lcd4bit.o: ..\Core\Src\lcd4bit.h
+usb4\lcd4bit.o: C:\Keil\ARM\Pack\Keil\STM32F1xx_DFP\2.3.0\Device\Include\stm32f10x.h
+usb4\lcd4bit.o: .\RTE\_USB4\RTE_Components.h
+usb4\lcd4bit.o: ../Drivers/CMSIS/Include/core_cm3.h
+usb4\lcd4bit.o: C:\Keil\ARM\ARMCC\Bin\..\include\stdint.h
+usb4\lcd4bit.o: ../Drivers/CMSIS/Include/cmsis_version.h
+usb4\lcd4bit.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
+usb4\lcd4bit.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
+usb4\lcd4bit.o: C:\Keil\ARM\Pack\Keil\STM32F1xx_DFP\2.3.0\Device\Include\system_stm32f10x.h
