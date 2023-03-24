@@ -89,6 +89,7 @@ int main(void)
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
   lcd = Lcd_create(ports, pins, GPIOC, GPIO_PIN_12, GPIOC, GPIO_PIN_10, LCD_4_BIT_MODE);
+  Lcd_string(&lcd,"Witaj");
   /* USER CODE END 2 */
 
   /* Infinite loop */
