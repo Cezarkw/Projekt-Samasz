@@ -6,7 +6,7 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2022 STMicroelectronics.
+  * Copyright (c) 2023 STMicroelectronics.
   * All rights reserved.
   *
   * This software is licensed under terms that can be found in the LICENSE file
@@ -29,15 +29,14 @@
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
 
-
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 #define PB8 *((volatile unsigned long*) 0x422181A0)
-#define PB9 *((volatile unsigned long*) 0x422181A4)	
-#define PA1 *((volatile unsigned long*) 0x42210104)	
-#define PA2 *((volatile unsigned long*) 0x42210108)	
+#define PB9 *((volatile unsigned long*) 0x422181A4)
+#define PA1 *((volatile unsigned long*) 0x42210104)
+#define PA2 *((volatile unsigned long*) 0x42210108)
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -55,10 +54,10 @@ const osThreadAttr_t defaultTask_attributes = {
   .stack_size = 128 * 4,
   .priority = (osPriority_t) osPriorityNormal,
 };
-/* Definitions for myTask01 */
-osThreadId_t myTask01Handle;
-const osThreadAttr_t myTask01_attributes = {
-  .name = "myTask01",
+/* Definitions for myTask02 */
+osThreadId_t myTask02Handle;
+const osThreadAttr_t myTask02_attributes = {
+  .name = "myTask02",
   .stack_size = 128 * 4,
   .priority = (osPriority_t) osPriorityNormal,
 };
@@ -106,9 +105,6 @@ const osEventFlagsAttr_t E_PB8_attributes = {
 Lcd_PortType ports[] = {GPIOC, GPIOC, GPIOC, GPIOC};
 Lcd_PinType pins[] = {GPIO_PIN_3, GPIO_PIN_2, GPIO_PIN_1, GPIO_PIN_0};
 Lcd_HandleTypeDef lcd;
-
-
-
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -116,7 +112,7 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_TIM3_Init(void);
 void StartDefaultTask(void *argument);
-void StartTask01(void *argument);
+void StartTask02(void *argument);
 void StartTask03(void *argument);
 void StartTask04(void *argument);
 
@@ -159,9 +155,9 @@ int main(void)
   MX_GPIO_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-	lcd = Lcd_create(ports, pins, GPIOC, GPIO_PIN_12, GPIOC, GPIO_PIN_10, LCD_4_BIT_MODE);
-	Lcd_string(&lcd,"Witaj!");
-	HAL_TIM_OC_Start_IT(&htim3, TIM_CHANNEL_1);
+  lcd = Lcd_create(ports, pins, GPIOC, GPIO_PIN_12, GPIOC, GPIO_PIN_10, LCD_4_BIT_MODE);
+  Lcd_string(&lcd,"Witaj!");
+  HAL_TIM_OC_Start_IT(&htim3, TIM_CHANNEL_1);
   /* USER CODE END 2 */
 
   /* Init scheduler */
@@ -173,10 +169,10 @@ int main(void)
 
   /* Create the semaphores(s) */
   /* creation of myBinarySem01 */
-  myBinarySem01Handle = osSemaphoreNew(1, 1, &myBinarySem01_attributes);
+  myBinarySem01Handle = osSemaphoreNew(1, 0, &myBinarySem01_attributes);
 
   /* creation of myBinarySem02 */
-  myBinarySem02Handle = osSemaphoreNew(1, 1, &myBinarySem02_attributes);
+  myBinarySem02Handle = osSemaphoreNew(1, 0, &myBinarySem02_attributes);
 
   /* USER CODE BEGIN RTOS_SEMAPHORES */
   /* add semaphores, ... */
@@ -201,8 +197,8 @@ int main(void)
   /* creation of defaultTask */
   defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
 
-  /* creation of myTask01 */
-  myTask01Handle = osThreadNew(StartTask01, NULL, &myTask01_attributes);
+  /* creation of myTask02 */
+  myTask02Handle = osThreadNew(StartTask02, NULL, &myTask02_attributes);
 
   /* creation of myTask03 */
   myTask03Handle = osThreadNew(StartTask03, NULL, &myTask03_attributes);
@@ -212,7 +208,6 @@ int main(void)
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
-	
   /* USER CODE END RTOS_THREADS */
 
   /* Create the event(s) */
@@ -394,8 +389,6 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
-
 void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
 {
 	static uint32_t f_PB8;
@@ -434,42 +427,39 @@ void StartDefaultTask(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    PB9=PB9^0x01;
-		osDelay(1000);
+	  PB9=PB9^0x01;
+	  osDelay(1000);
   }
-
   /* USER CODE END 5 */
 }
 
-/* USER CODE BEGIN Header_StartTask01 */
+/* USER CODE BEGIN Header_StartTask02 */
 /**
-* @brief Function implementing the myTask01 thread.
+* @brief Function implementing the myTask02 thread.
 * @param argument: Not used
 * @retval None
 */
-/* USER CODE END Header_StartTask01 */
-void StartTask01(void *argument)
+/* USER CODE END Header_StartTask02 */
+void StartTask02(void *argument)
 {
-  /* USER CODE BEGIN StartTask01 */
-
+  /* USER CODE BEGIN StartTask02 */
   /* Infinite loop */
   for(;;)
   {
-			if (PB8==0)
+		if (PB8==0)
 			{
-				osEventFlagsClear(E_PB8Handle,0x00000001U);
-				osSemaphoreAcquire(myBinarySem01Handle, osWaitForever);
-				PB8=1;
-				
+			osEventFlagsClear(E_PB8Handle,0x00000001U);
+			osSemaphoreAcquire(myBinarySem01Handle, osWaitForever);
+			PB8=1;
 			}
-			else
+		else
 			{
-				osEventFlagsSet(E_PB8Handle,0x00000001U);
-				osSemaphoreAcquire(myBinarySem02Handle, osWaitForever);
-				PB8=0;
+			osEventFlagsSet(E_PB8Handle,0x00000001U);
+			osSemaphoreAcquire(myBinarySem02Handle, osWaitForever);
+			PB8=0;
 			};
   }
-  /* USER CODE END StartTask01 */
+  /* USER CODE END StartTask02 */
 }
 
 /* USER CODE BEGIN Header_StartTask03 */
@@ -483,44 +473,43 @@ void StartTask03(void *argument)
 {
   /* USER CODE BEGIN StartTask03 */
 	int time=29999;
-	int time_t;
-  /* Infinite loop */
-	if (osMessageQueueGetCount(myQueue01Handle)==0)
-					osMessageQueuePut(myQueue01Handle, &time,0,0);
-	if (osMessageQueueGetCount(myQueue02Handle)==0)
-					osMessageQueuePut(myQueue02Handle, &time,0,0);
-  for(;;)
-  {
-		if (PA1==0 && time<59999)
-			{
-				if (osMessageQueueGetCount(myQueue01Handle)>0)
-					osMessageQueueGet(myQueue01Handle, &time_t,0,0);
-				if (osMessageQueueGetCount(myQueue02Handle)>0)
-					osMessageQueueGet(myQueue02Handle, &time_t,0,0);
-				time=time+200;
-				if (osMessageQueueGetCount(myQueue01Handle)==0)
-					osMessageQueuePut(myQueue01Handle, &time,0,0);
-				if (osMessageQueueGetCount(myQueue02Handle)==0)
-					osMessageQueuePut(myQueue02Handle, &time,0,0);
-				while(PA1==0);
-			};
-		if (PA2==0 && time>199)
-			{
-				if (osMessageQueueGetCount(myQueue01Handle)>0)
-					osMessageQueueGet(myQueue01Handle, &time_t,0,0);
-				if (osMessageQueueGetCount(myQueue02Handle)>0)
-					osMessageQueueGet(myQueue02Handle, &time_t,0,0);
-				time=time-200;
-				if (osMessageQueueGetCount(myQueue01Handle)==0)
-					osMessageQueuePut(myQueue01Handle, &time,0,0);
-				if (osMessageQueueGetCount(myQueue02Handle)==0)
-					osMessageQueuePut(myQueue02Handle, &time,0,0);
-				while(PA2==0);
-			}
+		int time_t;
+	  /* Infinite loop */
+		if (osMessageQueueGetCount(myQueue01Handle)==0)
+						osMessageQueuePut(myQueue01Handle, &time,0,0);
+		if (osMessageQueueGetCount(myQueue02Handle)==0)
+						osMessageQueuePut(myQueue02Handle, &time,0,0);
+	  for(;;)
+	  {
+			if (PA1==0 && time<59999)
+				{
+					if (osMessageQueueGetCount(myQueue01Handle)>0)
+						osMessageQueueGet(myQueue01Handle, &time_t,0,0);
+					if (osMessageQueueGetCount(myQueue02Handle)>0)
+						osMessageQueueGet(myQueue02Handle, &time_t,0,0);
+					time=time+200;
+					if (osMessageQueueGetCount(myQueue01Handle)==0)
+						osMessageQueuePut(myQueue01Handle, &time,0,0);
+					if (osMessageQueueGetCount(myQueue02Handle)==0)
+						osMessageQueuePut(myQueue02Handle, &time,0,0);
+					while(PA1==0);
+				};
+			if (PA2==0 && time>199)
+				{
+					if (osMessageQueueGetCount(myQueue01Handle)>0)
+						osMessageQueueGet(myQueue01Handle, &time_t,0,0);
+					if (osMessageQueueGetCount(myQueue02Handle)>0)
+						osMessageQueueGet(myQueue02Handle, &time_t,0,0);
+					time=time-200;
+					if (osMessageQueueGetCount(myQueue01Handle)==0)
+						osMessageQueuePut(myQueue01Handle, &time,0,0);
+					if (osMessageQueueGetCount(myQueue02Handle)==0)
+						osMessageQueuePut(myQueue02Handle, &time,0,0);
+					while(PA2==0);
+				}
 
-   
-  }
-  /* USER CODE END StartTask03 */
+
+	  }
 }
 
 /* USER CODE BEGIN Header_StartTask04 */
@@ -532,32 +521,32 @@ void StartTask03(void *argument)
 /* USER CODE END Header_StartTask04 */
 void StartTask04(void *argument)
 {
-  /* USER CODE BEGIN StartTask04 */
-	uint32_t f_PB8;
-	int time=0;
-	float time2=0;
-	char text[10];
-	
-  /* Infinite loop */
-  for(;;)
-  {
-		f_PB8=osEventFlagsGet(E_PB8Handle);
-		if (osMessageQueueGetCount(myQueue02Handle)>0)
-			osMessageQueueGet(myQueue02Handle, &time,NULL,0);
-    if (f_PB8==0x00000001U)
-			time2=((float)__HAL_TIM_GET_COUNTER(&htim3))/2000.0;
-		else	
-			time2=0.0;
-		sprintf(text, "%2.3f", (double) (time+1)/2000);
-		Lcd_cursor(&lcd,1,0);
-		Lcd_string(&lcd,text);
-		Lcd_cursor(&lcd,1,8);
-		sprintf(text, "%2.3f", time2);
-    Lcd_string(&lcd,text);		
-		osDelay(500);
-		Lcd_clear(&lcd);
-	}
-  /* USER CODE END StartTask04 */
+	/* USER CODE BEGIN StartTask04 */
+		uint32_t f_PB8;
+		int time=0;
+		float time2=0;
+		char text[10];
+
+	  /* Infinite loop */
+	  for(;;)
+	  {
+			f_PB8=osEventFlagsGet(E_PB8Handle);
+			if (osMessageQueueGetCount(myQueue02Handle)>0)
+				osMessageQueueGet(myQueue02Handle, &time,NULL,0);
+	    if (f_PB8==0x00000001U)
+				time2=((float)__HAL_TIM_GET_COUNTER(&htim3))/2000.0;
+			else
+				time2=0.0;
+			sprintf(text, "%2.3f", (double) (time+1)/2000);
+			Lcd_cursor(&lcd,1,0);
+			Lcd_string(&lcd,text);
+			Lcd_cursor(&lcd,1,8);
+			sprintf(text, "%2.3f", time2);
+			Lcd_string(&lcd,text);
+			osDelay(500);
+			Lcd_clear(&lcd);
+		}
+	  /* USER CODE END StartTask04 */
 }
 
 /**
